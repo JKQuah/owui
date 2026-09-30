@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Dark mode via a `.dark` class on any ancestor (shadcn convention). */
+@custom-variant dark (&:is(.dark *));
+
+/* Design tokens: override these in a consumer app to re-theme the library. */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+}
+
+/*
+ * Override hooks. Every component carries a semantic class next to its
+ * Tailwind utilities. A consuming app overrides styling with plain CSS on
+ * these classes (unlayered CSS beats the library's layers, so no !important):
+ * 
+ * Full reference: README.md
+ *
+ * e.g.  .button-lg { height: 3.5rem; }   .text-block { gap: 2rem; }
+ */
+
+/*
+ * Breakpoints (desktop-first). Use the `max-*` variants: `max-lg:` applies
+ * below 1200px, `max-md:` below 1000px, `max-sm:` below 640px. Default
+ * breakpoints are cleared so only these three exist.
+ */
+@theme {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 1000px;
+  --breakpoint-lg: 1200px;
+}
+
+/*
+ * Marquee animations. `inline` is required: the value references --duration
+ * and --gap, which are set on the marquee element, not on :root.
+ */
+@theme inline {
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+}
+
+/* Map tokens to Tailwind utilities (bg-primary, text-muted-foreground, ...). */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/*
+ * Library CSS must not restyle the host app, so no global `body` / `*` rules
+ * beyond Tailwind's own preflight. Base styles live on the components.
+ */
