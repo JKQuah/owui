@@ -20,7 +20,13 @@ export {
   type NewsItem,
   type NewsImageEffect,
 } from "./components/compound/news-carousel"
-export { TextBlock, type TextBlockProps } from "./components/compound/text-block"
+export {
+  TextBlock,
+  type TextBlockLink,
+  type TextBlockPoint,
+  type TextBlockPointSegment,
+  type TextBlockProps,
+} from "./components/compound/text-block"
 
 // Importing the stylesheet here makes the build emit it as dist/owui.css.
 import "./styles/global.css"
