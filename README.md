@@ -21,7 +21,7 @@ import "owui/styles.css" // once, at your app entry
     tagline="New"
     title="Ship faster"
     description="Reusable components."
-    action={<InteractiveButton icon={<ArrowRight />} underline>Start</InteractiveButton>}
+    action={<InteractiveButton icon={<ArrowRight />} animation="underline">Start</InteractiveButton>}
   />
   <NewsCarousel imageEffect="corner" controlsAlign="right" items={items} />
 </Container>
@@ -34,12 +34,12 @@ import "owui/styles.css" // once, at your app entry
 | `Button` | `variant`: default, destructive, outline, secondary, ghost, link. `size`: default, xs, sm, lg, icon, icon-xs, icon-sm, icon-lg. `asChild` |
 | `Container` | `variant`: default (transparent), dark, green, gradient. `size`: none, xs, sm, md, lg (= default), xl. `asChild` |
 | `Typography` | `variant`: h1, h2, h3, h4, p, blockquote, code, lead, large, small, muted. `asChild` |
-| `InteractiveButton` | All `Button` props except `asChild`, plus `icon`, `iconPosition` (left/right), `iconAnimation` (none/fade/slide), `underline`, `effect` (none/lift/scale) |
+| `InteractiveButton` | All `Button` props except `asChild`, plus `icon`, `iconPosition` (left/right), `animation` (none/underline/swipe, one at a time) |
 | `NewsCarousel` | `items` (`image`, `imageAlt`, `date`, `title`, `href`), `imageEffect` (none/zoom/corner), `showControls`, `controlsAlign` (left/center/right), `activeVariant` (default outline), `inactiveVariant` (default ghost), `label`. Pagination pages = screenfuls of cards. 3 / 2 / 1 columns; `--columns`, `--gap` variables |
 | `Marquee` | `reverse`, `pauseOnHover`, `vertical` (needs a fixed height), `repeat`. Speed/spacing via `--duration` and `--gap` |
 | `NumberTicker` | `value`, `startValue`, `direction` (up/down), `delay` (seconds), `decimalPlaces`. Counts when scrolled into view; honours `prefers-reduced-motion` |
 | `Pagination` | shadcn pagination parts. `PaginationLink` also takes `activeVariant` / `inactiveVariant` |
-| `TextBlock` | `tagline`, `icon`, `title`, `description`, `action` (vertical stack) |
+| `TextBlock` | `tagline`, `icon`, `title`, `description`, `points`, `pointIcon`, `extra`, `action` (vertical stack; each point is a string, node, or array mixing text and `{ text, href, external? }` links; `pointIcon` defaults to `•`) |
 
 ## Customising styles
 
@@ -67,7 +67,7 @@ don't need `!important`. (If you write the override inside your own
 | NewsCarousel | `.news-carousel` (set `--columns`, `--gap` here), `-track`, `-item`, `-image`, `-image-border`, `-date`, `-title`, `-controls` |
 | Marquee | `.marquee` (set `--duration`, `--gap` here), `.marquee-track` |
 | NumberTicker | `.number-ticker` (inherits text colour) |
-| TextBlock | `.text-block` (the `gap`), `.text-block-tagline`, `.text-block-icon`, `.text-block-title`, `.text-block-description`, `.text-block-action` |
+| TextBlock | `.text-block` (the `gap`), `.text-block-tagline`, `.text-block-icon`, `.text-block-title`, `.text-block-description`, `.text-block-points`, `.text-block-point`, `.text-block-point-icon`, `.text-block-point-content`, `.text-block-extra`, `.text-block-action` |
 
 ### Data attributes
 
@@ -80,7 +80,7 @@ Also targetable, e.g. `[data-slot="button"][data-variant="outline"]`:
 - `Marquee`: `data-slot="marquee"` (`data-orientation`), `data-slot="marquee-track"`
 - `NumberTicker`: `data-slot="number-ticker"`
 - `Pagination`: `data-slot="pagination"`, `pagination-content|item|link` (`data-active`), `pagination-ellipsis`
-- `TextBlock`: `data-slot="text-block"` and `text-block-tagline|icon|title|description|action`
+- `TextBlock`: `data-slot="text-block"` and `text-block-tagline|icon|title|description|points|point|point-icon|point-content|extra|action`
 - `Typography`: `data-slot="typography"`, `data-variant`
 
 ### Theme tokens
@@ -101,9 +101,15 @@ use the `max-*` variants (`max-lg:` below 1200px, `max-md:` below 1000px,
 Requires Node >= 20.11 and pnpm.
 
 ```bash
-pnpm build      # dist/index.js, index.cjs, index.d.ts, owui.css
+pnpm storybook        # component playground at http://localhost:6006
+pnpm build-storybook  # static build into storybook-static/
+pnpm build            # dist/index.js, index.cjs, index.d.ts, owui.css
 pnpm typecheck
 ```
+
+Stories live in `stories/` (one file per component, with controls for every
+variant). Use the toolbar's Theme switch for dark mode and the viewport tool to
+test the desktop-first breakpoints. Add a story whenever you add a component.
 
 ### Adding shadcn components
 
