@@ -12,5 +12,5 @@
     "resolveJsonModule": true,
     "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "stories", ".storybook", "vite.config.ts"]
 }
